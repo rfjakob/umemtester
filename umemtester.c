@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         perror("warning: could not lock memory");
     }
 
-	printf("writing\n");
+	printf("filling\n");
 	srand(1);
 	for(long i = 0; i<words; i++) {
 		buf[i] = rand();

@@ -7,7 +7,7 @@ Very simple memory tester - the tiny sibling of
 What it does:
 
 1) Allocate `SIZE_MIB` megabytes of RAM and `mlockall()` it
-2) Fill it with pseudorandom data
+2) Fill it with pseudorandom data from `rand()`
 3) Verify the contents
 
 Usage
@@ -24,7 +24,7 @@ Example
 $ ./umemtester 1000
 testing 1000 MiB
 warning: could not lock memory: Cannot allocate memory
-writing
+filling
 verifying
 ok
 ```
