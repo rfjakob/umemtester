@@ -9,3 +9,7 @@ umemtester-static: umemtester.c Makefile
 # Depends on compilation to make sure the syntax is ok.
 format: umemtester
 	clang-format -i *.c
+
+.PHONY: clean
+clean:
+	rm -f umemtester umemtester-static
