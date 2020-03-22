@@ -1,5 +1,6 @@
 #include <errno.h>
 #include <inttypes.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,10 +24,15 @@ int main(int argc, char* argv[])
         printf("fatal: invalid SIZE_MIB: %s\n", argv[1]);
         usage(argv[0]);
     }
+    unsigned long bytes = 0;
+    bool overflow = __builtin_umull_overflow(mib, 1024 * 1024, &bytes);
+    if (overflow) {
+        printf("fatal: integer overflow\n");
+        exit(1);
+    }
     printf("testing %ld MiB\n", mib);
 
-    const long words = mib * 1024 * 1024 / sizeof(int);
-    int* buf = malloc(mib * 1024 * 1024);
+    int* buf = malloc(bytes);
     if (!buf) {
         perror("fatal: malloc failed");
         exit(1);
@@ -39,6 +45,7 @@ int main(int argc, char* argv[])
 
     printf("filling\n");
     srand(1);
+    const long words = bytes / sizeof(int);
     for (long i = 0; i < words; i++) {
         buf[i] = rand();
     }
